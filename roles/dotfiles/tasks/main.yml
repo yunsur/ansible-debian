@@ -1,0 +1,33 @@
+---
+
+- name: Copy shells to "root"
+  copy:
+    src: shells/
+    dest: /root/.shells/
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy bashrc to "root"
+  copy:
+    src: bashrc
+    dest: /root/.bashrc
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy shells to "{{ username }}"
+  copy:
+    src: shells/
+    dest: /home/{{ username }}/.shells/
+    owner: "{{ username }}"
+    group: "{{ group }}"
+    mode: 0644
+
+- name: Copy bashrc to "{{ username }}"
+  copy:
+    src: bashrc
+    dest: /home/{{ username }}/.bashrc
+    owner: "{{ username }}"
+    group: "{{ group }}"
+    mode: 0644

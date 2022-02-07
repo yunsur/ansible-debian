@@ -1,0 +1,7 @@
+### General annoyances ###
+.DS_Store
+*~
+*.swp
+
+### to ignore changes in a working copy
+.ignore_changes

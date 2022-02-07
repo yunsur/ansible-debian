@@ -1,0 +1,17 @@
+---
+
+- name: restart-sshd
+  service:
+    name: sshd
+    state: restarted
+
+- name: restart-journald
+  service:
+    name: systemd-journald
+    state: restarted
+
+- name: load-profile
+  shell: source /etc/profile.d/umask.sh
+
+- name: load-sysctl
+  shell: sysctl -p /etc/sysctl.d/99-sysctl.conf

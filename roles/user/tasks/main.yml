@@ -1,0 +1,24 @@
+---
+
+- name: Create user group
+  group:
+    name: "{{ group }}"
+
+- name: Create user account
+  user:
+    name: "{{ username }}"
+    password: "{{ 'password' | password_hash('sha512') }}"
+    update_password: on_create
+    shell: /bin/bash
+    group: "{{ group }}"
+    groups:
+      - sudo
+      - docker
+    append: yes
+
+- name: Add public key to "{{ username }}"
+  authorized_key:
+    exclusive: True
+    key: "{{ lookup('file', 'id_rsa.pub') }}"
+    user: "{{ username }}"
+    state: present

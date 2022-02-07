@@ -1,0 +1,24 @@
+---
+
+- name: APT | Remove packages that are left over dependencies (no longer needed)
+  apt:
+    autoremove: yes
+  when: apt_autoremove
+  register: apt_autoremove_var
+  changed_when: "'Removed' in apt_autoremove_var.stdout"
+
+- name: APT | Clear local repository of retrieved package files
+  apt:
+    autoclean: yes
+  when: apt_autoclean
+  register: apt_autoclean_var
+  changed_when: "'Deleted' in apt_autoclean_var.stdout"
+
+- name: APT | Update the apt cache
+  apt:
+    update_cache: yes
+
+- name: APT | Make sure the default packages are installed
+  apt:
+    pkg: "{{ apt_default_packages |join(',') }}"
+    state: present

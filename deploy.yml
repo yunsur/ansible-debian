@@ -1,0 +1,9 @@
+---
+
+- name: Init Server
+  hosts: all
+  roles:
+    - debian
+    - docker
+    - user
+    - dotfiles

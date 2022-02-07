@@ -1,0 +1,49 @@
+---
+
+- name: Copy profile to /etc/profile.d/
+  copy:
+    src: profile.d/
+    dest: /etc/profile.d/
+    owner: root
+    group: root
+    mode: 0755
+  notify:
+    - load-profile
+
+- name: Copy sysctl to /etc/sysctl.d/
+  copy:
+    src: sysctl.d/
+    dest: /etc/sysctl.d/
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - load-sysctl
+
+- name: Copy sshd_config to /etc/ssh/sshd_config.d/
+  copy:
+    src: sshd_config.d/
+    dest: /etc/ssh/sshd_config.d/
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart-sshd
+
+- name: Copy journald to /etc/systemd/journald.conf.d
+  copy:
+    src: journald.conf.d/
+    dest: /etc/systemd/journald.conf.d/
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart-journald
+
+- name: Copy apt to /etc/apt/apt.conf.d/
+  copy:
+    src: apt.conf.d/
+    dest: /etc/apt/apt.conf.d/
+    owner: root
+    group: root
+    mode: 0644

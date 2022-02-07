@@ -1,0 +1,16 @@
+---
+
+- name: Prepare for installation
+  include_tasks: prepare.yml
+
+- name: Copy default configuration
+  include_tasks: configuration.yml
+
+- name: Set timezone
+  include_tasks: timezone.yml
+
+- name: Set locale
+  include_tasks: locale.yml
+
+- name: Set motd
+  include_tasks: motd.yml

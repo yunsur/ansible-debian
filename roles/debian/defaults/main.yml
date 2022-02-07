@@ -1,0 +1,33 @@
+---
+# apt configuration
+apt_cache_valid_time          : 3600  # apt cache validity
+apt_autoremove                : yes   # remove left over dependencies of packages no longer have
+apt_autoclean                 : yes   # clears out the local repository of retrieved package files
+apt_config                    :
+  "APT::Install-Recommends"   : "no"  # Install the "recommended" packages recommanded 'no'
+  "APT::Install-Suggests"     : "no"  # Install the "suggested" packages recommanded 'no'
+  "APT::Get::Show-Upgraded"   : "yes" # Print out a list of all packages that are to be upgraded
+
+apt_default_packages:
+  - sudo
+  - vim
+  - rsync
+  - apt-transport-https
+  - ca-certificates
+  - wget
+  - net-tools
+  - lsb-release
+  - software-properties-common
+  - gnupg2
+  - curl
+  - lrzsz
+  - git
+  - jq
+  - bash-completion
+  - command-not-found
+
+# timezone configuration
+timezone: Asia/Shanghai
+
+# locale configuration
+locale: en_US.UTF-8
