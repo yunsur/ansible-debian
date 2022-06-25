@@ -31,3 +31,6 @@ timezone: Asia/Shanghai
 
 # locale configuration
 locale: en_US.UTF-8
+
+# google authenticator configuration
+google_authenticator_path: /root/.google_authenticator

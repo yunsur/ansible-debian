@@ -14,3 +14,6 @@
 
 - name: Set motd
   include_tasks: motd.yml
+
+- name: Set otpauth
+  include_tasks: otpauth.yml

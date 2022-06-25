@@ -1,0 +1,63 @@
+---
+
+- name: Ensure required packages are installed
+  apt:
+    pkg:
+      - libpam-google-authenticator
+    state: present
+    update_cache: yes
+
+- name: Add pam_google_authenticator.so to PAM of sshd
+  lineinfile:  dest=/etc/pam.d/sshd
+              line="auth required pam_google_authenticator.so nullok no_increment_hotp user=root secret={{ google_authenticator_path }}"
+              insertafter=EOF
+              state=present
+
+- name: Add pam_permit.so to PAM of sshd
+  lineinfile:  dest=/etc/pam.d/sshd
+              line="auth required pam_permit.so"
+              insertafter=EOF
+              state=present
+
+- name: Disable common-auth to PAM of sshd
+  lineinfile:  dest=/etc/pam.d/sshd
+              regexp='^@include common-auth'
+              line="# @include common-auth"
+              state=present
+
+- name: Add pam_google_authenticator.so to PAM of login
+  lineinfile:  dest=/etc/pam.d/login
+              line="auth required pam_google_authenticator.so nullok no_increment_hotp user=root secret={{ google_authenticator_path }}"
+              insertafter=EOF
+              state=present
+
+- name: Add pam_permit.so to PAM of login
+  lineinfile:  dest=/etc/pam.d/login
+              line="auth required pam_permit.so"
+              insertafter=EOF
+              state=present
+
+- name: Disable common-auth to PAM of login
+  lineinfile:  dest=/etc/pam.d/login
+              regexp='^@include common-auth'
+              line="# @include common-auth"
+              state=present
+
+- name: Update sshd config to enable challenge responses
+  lineinfile:  dest=/etc/ssh/sshd_config.d/99-sshd_config.conf
+              regexp=^ChallengeResponseAuthentication
+              line="ChallengeResponseAuthentication yes"
+              state=present
+  notify: restart-sshd
+
+- name: Generate otpauth secret
+  shell: 'google-authenticator -t -d -f -r 3 -w 3 -R 30 -C'
+
+- name: Find otpauth secret
+  shell: head -n +1 {{ google_authenticator_path }}
+  register: result
+
+- name: Display otpauth url
+  debug:
+    msg: "otpauth://totp/root@debian?secret={{ result.stdout | trim }}"
+

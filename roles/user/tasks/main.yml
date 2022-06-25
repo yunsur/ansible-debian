@@ -19,6 +19,6 @@
 - name: Add public key to "{{ username }}"
   authorized_key:
     exclusive: True
-    key: "{{ lookup('file', 'id_rsa.pub') }}"
+    key: "{{ lookup('file', 'id_ed25519.pub') }}"
     user: "{{ username }}"
     state: present
