@@ -1,63 +1,72 @@
 ---
-
 - name: Ensure required packages are installed
-  apt:
+  ansible.builtin.apt:
     pkg:
       - libpam-google-authenticator
     state: present
-    update_cache: yes
+    update_cache: true
 
 - name: Add pam_google_authenticator.so to PAM of sshd
-  lineinfile:  dest=/etc/pam.d/sshd
-              line="auth required pam_google_authenticator.so nullok no_increment_hotp user=root secret={{ google_authenticator_path }}"
-              insertafter=EOF
-              state=present
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/sshd
+    line: "auth required pam_google_authenticator.so nullok no_increment_hotp user=root secret={{ google_authenticator_path }}"
+    insertafter: EOF
+    state: present
 
 - name: Add pam_permit.so to PAM of sshd
-  lineinfile:  dest=/etc/pam.d/sshd
-              line="auth required pam_permit.so"
-              insertafter=EOF
-              state=present
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/sshd
+    line: "auth required pam_permit.so"
+    insertafter: EOF
+    state: present
 
 - name: Disable common-auth to PAM of sshd
-  lineinfile:  dest=/etc/pam.d/sshd
-              regexp='^@include common-auth'
-              line="# @include common-auth"
-              state=present
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/sshd
+    regexp: '^@include common-auth'
+    line: "# @include common-auth"
+    state: present
 
 - name: Add pam_google_authenticator.so to PAM of login
-  lineinfile:  dest=/etc/pam.d/login
-              line="auth required pam_google_authenticator.so nullok no_increment_hotp user=root secret={{ google_authenticator_path }}"
-              insertafter=EOF
-              state=present
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/login
+    line: "auth required pam_google_authenticator.so nullok no_increment_hotp user=root secret={{ google_authenticator_path }}"
+    insertafter: EOF
+    state: present
 
 - name: Add pam_permit.so to PAM of login
-  lineinfile:  dest=/etc/pam.d/login
-              line="auth required pam_permit.so"
-              insertafter=EOF
-              state=present
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/login
+    line: "auth required pam_permit.so"
+    insertafter: EOF
+    state: present
 
 - name: Disable common-auth to PAM of login
-  lineinfile:  dest=/etc/pam.d/login
-              regexp='^@include common-auth'
-              line="# @include common-auth"
-              state=present
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/login
+    regexp: '^@include common-auth'
+    line: "# @include common-auth"
+    state: present
 
 - name: Update sshd config to enable challenge responses
-  lineinfile:  dest=/etc/ssh/sshd_config.d/99-sshd_config.conf
-              regexp=^ChallengeResponseAuthentication
-              line="ChallengeResponseAuthentication yes"
-              state=present
-  notify: restart-sshd
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config.d/99-sshd_config.conf
+    regexp: ^ChallengeResponseAuthentication
+    line: "ChallengeResponseAuthentication yes"
+    state: present
+  notify: Restart-sshd
 
 - name: Generate otpauth secret
-  shell: 'google-authenticator -t -d -f -r 3 -w 3 -R 30 -C'
+  ansible.builtin.command:
+    cmd: "google-authenticator -t -d -f -r 3 -w 3 -R 30 -C"
+    creates: "{{ google_authenticator_path }}"
 
 - name: Find otpauth secret
-  shell: head -n +1 {{ google_authenticator_path }}
+  ansible.builtin.command:
+    cmd: head -n +1 {{ google_authenticator_path }}
+  changed_when: false
   register: result
 
 - name: Display otpauth url
-  debug:
+  ansible.builtin.debug:
     msg: "otpauth://totp/root@debian?secret={{ result.stdout | trim }}"
-

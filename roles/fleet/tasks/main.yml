@@ -1,0 +1,8 @@
+---
+- name: Create directory
+  ansible.builtin.file:
+    path: /fleet/
+    state: directory
+    owner: admin
+    group: admin
+    mode: "0755"

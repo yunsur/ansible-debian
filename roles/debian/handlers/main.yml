@@ -1,17 +1,28 @@
 ---
 
-- name: restart-sshd
-  service:
+- name: Restart-sshd
+  ansible.builtin.systemd:
     name: sshd
     state: restarted
 
-- name: restart-journald
-  service:
+- name: Restart-fail2ban
+  ansible.builtin.systemd:
+    name: fail2ban
+    state: restarted
+
+- name: Restart-journald
+  ansible.builtin.systemd:
     name: systemd-journald
     state: restarted
 
-- name: load-profile
-  shell: source /etc/profile.d/umask.sh
+- name: Load-profile
+  ansible.builtin.command:
+    cmd: bash -c 'source /etc/profile.d/umask.sh'
+  changed_when: false
+  become: true
 
-- name: load-sysctl
-  shell: sysctl -p /etc/sysctl.d/99-sysctl.conf
+- name: Load-sysctl
+  ansible.builtin.command:
+    cmd: sysctl -p /etc/sysctl.d/99-sysctl.conf
+  changed_when: false
+  become: true

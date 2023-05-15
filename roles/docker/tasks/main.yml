@@ -1,30 +1,30 @@
 ---
 
 - name: Add apt signing key from official docker repo
-  apt_key:
+  ansible.builtin.apt_key:
     url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
     state: present
 
 - name: Add docker official repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
     state: present
 
-- name: apt update and upgrade for docker
-  apt:
+- name: Apt update and upgrade for docker
+  ansible.builtin.apt:
     name: '*'
     state: present
-    update_cache: yes
-    install_recommends: no
-    force_apt_get: yes
+    update_cache: true
+    install_recommends: false
+    force_apt_get: true
 
 - name: Install docker-ce and docker-compose
-  apt:
+  ansible.builtin.apt:
     pkg:
       - docker-ce
       - docker-compose
     state: present
-    update_cache: no
-    install_recommends: no
+    update_cache: false
+    install_recommends: false
   notify:
-      - restart-docker
+    - Restart-docker

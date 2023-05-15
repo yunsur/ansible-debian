@@ -1,5 +1,4 @@
 ---
-
 - name: Init Server
   hosts: all
   roles:
@@ -7,3 +6,4 @@
     - docker
     - user
     - dotfiles
+    - fleet

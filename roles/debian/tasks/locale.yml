@@ -1,6 +1,5 @@
 ---
-
 - name: Ensure a locale exists
-  locale_gen:
+  community.general.locale_gen:
     name: "{{ locale }}"
     state: present

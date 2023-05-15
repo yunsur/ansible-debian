@@ -1,11 +1,10 @@
 ---
-
 - name: Create user group
-  group:
+  ansible.builtin.group:
     name: "{{ group }}"
 
 - name: Create user account
-  user:
+  ansible.builtin.user:
     name: "{{ username }}"
     password: "{{ 'password' | password_hash('sha512') }}"
     update_password: on_create
@@ -14,11 +13,11 @@
     groups:
       - sudo
       - docker
-    append: yes
+    append: true
 
 - name: Add public key to "{{ username }}"
-  authorized_key:
-    exclusive: True
+  ansible.posix.authorized_key:
+    exclusive: true
     key: "{{ lookup('file', 'id_ed25519.pub') }}"
     user: "{{ username }}"
     state: present
