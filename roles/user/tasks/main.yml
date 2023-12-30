@@ -12,7 +12,6 @@
     group: "{{ group }}"
     groups:
       - sudo
-      - docker
     append: true
 
 - name: Add public key to "{{ username }}"

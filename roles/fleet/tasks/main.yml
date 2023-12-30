@@ -4,5 +4,5 @@
     path: /fleet/
     state: directory
     owner: admin
-    group: admin
+    group: users
     mode: "0755"
