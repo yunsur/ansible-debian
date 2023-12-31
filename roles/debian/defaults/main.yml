@@ -26,6 +26,7 @@ apt_default_packages:
   - bash-completion
   - command-not-found
   - fail2ban
+  - psmisc
 
 # timezone configuration
 timezone: Asia/Shanghai
