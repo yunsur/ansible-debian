@@ -1,14 +1,13 @@
 ---
-# apt configuration
-apt_cache_valid_time: 3600  # apt cache validity
-apt_autoremove: true   # remove left over dependencies of packages no longer have
-apt_autoclean: true   # clears out the local repository of retrieved package files
-apt_config:
-  "APT::Install-Recommends": "no"  # Install the "recommended" packages recommanded 'no'
-  "APT::Install-Suggests": "no"  # Install the "suggested" packages recommanded 'no'
-  "APT::Get::Show-Upgraded": "yes" # Print out a list of all packages that are to be upgraded
+debian_apt_cache_valid_time: 3600
+debian_apt_autoremove: true
+debian_apt_autoclean: true
+debian_apt_config:
+  "APT::Install-Recommends": "no"
+  "APT::Install-Suggests": "no"
+  "APT::Get::Show-Upgraded": "yes"
 
-apt_default_packages:
+debian_apt_default_packages:
   - sudo
   - vim
   - rsync
@@ -27,18 +26,13 @@ apt_default_packages:
   - command-not-found
   - fail2ban
   - psmisc
+  - htop
 
-# timezone configuration
-timezone: Asia/Shanghai
+debian_timezone: Asia/Shanghai
 
-# locale configuration
-locale: en_US.UTF-8
+debian_locale: en_US.UTF-8
 
-# google authenticator configuration
-google_authenticator_path: /root/.google_authenticator
-
-# limits configuration
-limits_conf_settings:
+debian_limits_conf_settings:
   - domain: "*"
     limit_type: soft
     limit_item: nofile

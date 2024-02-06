@@ -1,7 +1,8 @@
 ---
-- name: Init Server
+- name: Deploy
   hosts: all
   roles:
     - debian
-    - user
+    - users
+    - otpauth
     - dotfiles

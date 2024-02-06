@@ -16,6 +16,3 @@
 
 - name: Set motd
   ansible.builtin.include_tasks: motd.yml
-
-- name: Set otpauth
-  ansible.builtin.include_tasks: otpauth.yml

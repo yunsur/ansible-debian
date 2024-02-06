@@ -1,5 +1,5 @@
 ---
 
-- name: Set timezone to "{{ timezone }}"
+- name: Set timezone to "{{ debian_timezone }}"
   community.general.timezone:
-    name: "{{ timezone }}"
+    name: "{{ debian_timezone }}"

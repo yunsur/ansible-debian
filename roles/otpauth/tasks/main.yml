@@ -9,7 +9,7 @@
 - name: Add pam_google_authenticator.so to PAM of sshd
   ansible.builtin.lineinfile:
     path: /etc/pam.d/sshd
-    line: "auth required pam_google_authenticator.so nullok no_increment_hotp user=root secret={{ google_authenticator_path }}"
+    line: "auth required pam_google_authenticator.so nullok no_increment_hotp user=root secret={{ otpauth_google_authenticator_path }}"
     insertafter: EOF
     state: present
 
@@ -30,7 +30,7 @@
 - name: Add pam_google_authenticator.so to PAM of login
   ansible.builtin.lineinfile:
     path: /etc/pam.d/login
-    line: "auth required pam_google_authenticator.so nullok no_increment_hotp user=root secret={{ google_authenticator_path }}"
+    line: "auth required pam_google_authenticator.so nullok no_increment_hotp user=root secret={{ otpauth_google_authenticator_path }}"
     insertafter: EOF
     state: present
 
@@ -59,11 +59,11 @@
 - name: Generate otpauth secret
   ansible.builtin.command:
     cmd: "google-authenticator -t -d -f -r 3 -w 3 -R 30 -C"
-    creates: "{{ google_authenticator_path }}"
+    creates: "{{ otpauth_google_authenticator_path }}"
 
 - name: Find otpauth secret
   ansible.builtin.command:
-    cmd: head -n +1 {{ google_authenticator_path }}
+    cmd: head -n +1 {{ otpauth_google_authenticator_path }}
   changed_when: false
   register: result
 

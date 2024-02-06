@@ -1,5 +1,5 @@
 ---
 - name: Ensure a locale exists
   community.general.locale_gen:
-    name: "{{ locale }}"
+    name: "{{ debian_locale }}"
     state: present
