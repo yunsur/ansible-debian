@@ -1,4 +1,6 @@
 ---
+
+debian_openssh_port: 60022
 debian_apt_cache_valid_time: 3600
 debian_apt_autoremove: true
 debian_apt_autoclean: true
@@ -27,6 +29,7 @@ debian_apt_default_packages:
   - fail2ban
   - psmisc
   - htop
+  - ufw
 
 debian_timezone: Asia/Shanghai
 

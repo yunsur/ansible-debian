@@ -20,16 +20,6 @@
   notify:
     - Load-sysctl
 
-- name: Copy sshd_config to /etc/ssh/sshd_config.d/
-  ansible.builtin.copy:
-    src: sshd_config.d/
-    dest: /etc/ssh/sshd_config.d/
-    owner: root
-    group: root
-    mode: "0644"
-  notify:
-    - Restart-sshd
-
 - name: Copy journald to /etc/systemd/journald.conf.d
   ansible.builtin.copy:
     src: journald.conf.d/
